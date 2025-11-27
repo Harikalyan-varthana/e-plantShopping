@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from './CartSlice';
 import './ProductList.css'
@@ -261,6 +261,14 @@ function ProductList({ onHomeClick }) {
         setShowCart(false);
         setShowPlants(true);
     };
+
+    useEffect(() => {
+        const itemsMap = cartItems.reduce((acc, item) => {
+            acc[item.name] = true;
+            return acc;
+        }, {});
+        setAddedToCart(itemsMap);
+    }, [cartItems]);
 
     const handleAddToCart = (plant) => {
         dispatch(addItem(plant));
